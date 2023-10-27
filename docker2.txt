@@ -1,0 +1,42 @@
+STEP 6: Creating docker container to run Django
+application
+
+● Create a directory (e.g docker_demo in home directory)
+● Open terminal
+● $cd docker_demo
+● $vi Dockerfile
+//Add following lines to the file
+FROM python:3
+ENV PYTHONUNBUFFERED 1
+RUN mkdir /app
+WORKDIR /app
+COPY requirements.txt /app/
+RUN pip install -r requirements.txt
+COPY . /app/
+● $vi requirements.txt
+//Add following lines to the file
+DJANGO==2.2
+● $ vi docker-compose.yml
+//Add following lines to the file
+
+version: '3'
+services:
+	web:
+		build: .
+		command: python manage.py runserver 0.0.0.0:9000
+		volumes:
+			- .:/app
+		ports:
+			- "9000:9000"
+
+● $ sudo docker compose run web django-admin startproject mysite .
+● Check whether project is created or not: $ls -l
+● If access to the project is restricted only to root user the change the
+permissions: $sudo chown -R $USER:student .
+● Check updated permissions: $ls -l
+● Create and run the docker container: $docker compose up
+● Go to browser and enter the following URL: localhost:9000. If you see
+Django home page, that means Django has been successfully installed and
+running in the container.
+● You can not see the Django home page if you stop the container: $dockerstop 72cac95cec2f (container_id of Django container)
+Refer: https://docs.docker.com/engine/install/centos/
