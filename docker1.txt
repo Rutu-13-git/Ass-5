@@ -1,0 +1,54 @@
+STEP 1: Uninstall old versions
+● Uninstall any such older versions before attempting to install a new version
+$ sudo yum remove docker \
+docker-client \
+docker-client-latest \
+docker-common \
+docker-latest \
+docker-latest-logrotate \
+docker-logrotate \
+docker-engine
+STEP 2: Set up the repository
+$sudo yum install -y yum-utils
+$sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+STEP 3: Install Docker Engine
+$sudo yum install docker-ce docker-ce-cli containerd.io
+docker-buildx-plugin docker-compose-plugin
+STEP 4: Manage Docker as a non-root user
+Refer: https://docs.docker.com/engine/install/linux-postinstall/
+$ sudo groupadd docker
+
+$ sudo usermod -aG docker symsc__
+STEP 5: Running docker image
+1. Hello -world image
+$ sudo systemctl start docker 
+$ docker run hello-world
+(Note: if you get permission denied error for above command, run
+$sudo chmod 666 /var/run/docker.sock)
+
+● With the following command you can check how many
+containers are running at current time:
+$docker ps
+● Following command will give list of container exist on the
+machine
+$docker ps -a
+● To get list of images present on the machine:
+$docker image ls
+● To remove image from the system it is essential to remove all
+containers that use the image in running or stopped state
+● To remove container:
+$docker rm container_id
+● To remove the image from the system:
+$docker rmi image_id
+
+2. Using Ubuntu image
+Pull the image: $docker image pull ubuntu:latest
+Check image list: $docker image ls
+Run ubuntu container in same terminal:
+$docker run -it image_id_of_ubuntu_image /bin/bash
+
+After executing the above command you will be redirected to
+the ubuntu prompt. You can check by executing some linux
+commands on this prompt. Remember that this container will
+contain a very limited set of features. (you can run commands
+like ls, whoami etc.)
